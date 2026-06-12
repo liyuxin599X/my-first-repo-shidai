@@ -1,17 +1,37 @@
 <template>
   <div id="app">
-    <h1>Hello Vue 3 + Element Plus</h1>
-    <el-button type="primary">点击测试</el-button>
+    <Header @page-change="handlePageChange" />
+    <main class="main-content">
+      <Home v-if="currentPage === 'home'" />
+      <About v-else-if="currentPage === 'about'" />
+    </main>
   </div>
 </template>
 
 <script>
-import { ElButton } from 'element-plus';
+import { ref } from 'vue';
+import Header from './components/Header.vue';
+import Home from './views/Home.vue';
+import About from './views/About.vue';
 
 export default {
   name: 'App',
   components: {
-    ElButton
+    Header,
+    Home,
+    About
+  },
+  setup() {
+    const currentPage = ref('home');
+
+    const handlePageChange = (page) => {
+      currentPage.value = page;
+    };
+
+    return {
+      currentPage,
+      handlePageChange
+    };
   }
 };
 </script>
@@ -19,11 +39,9 @@ export default {
 <style>
 #app {
   min-height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+}
+
+.main-content {
+  padding-top: 20px;
 }
 </style>
